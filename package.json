@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "deDependencies": {
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cakeinpanic/justice-league.git"
+  },
+  "devDependencies": {
     "autoprefixer": "^6.3.1",
     "bootstrap": "^3.3.6",
     "css-loader": "^0.23.1",
