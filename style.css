@@ -1,0 +1,58 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+body {
+    font-family: "Open Sans", Arial;
+    background: #EDEDED;
+}
+
+main {
+    width: 500px;
+    margin: 10px auto;
+    padding: 10px 20px 30px;
+}
+
+p {
+    margin-top: 2rem;
+    font-size: 13px;
+}
+
+h1, h5 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h5 a {
+    text-decoration: none;
+
+}
+
+.container {
+    width: 900px;
+    margin: 0 auto;
+}
+
+.chartContainer {
+    text-align: center;
+}
+
+.chart {
+    display: inline-block;;
+    width: 400px;
+    height: 300px;
+    margin: 20px 20px 0 0;
+    position: relative;
+    background: #fff;
+}
+
+.chartContainer.loaded .progress {
+    display: none;
+}
+
+.progress {
+    width: 60%;
+    margin: 150px auto;
+}
+
+#bar {
+    width: 100%
+}

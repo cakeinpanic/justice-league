@@ -1,0 +1,27 @@
+<link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<body>
+<div class="container">
+    <h1>Разница в зарплатах <br>между женщинами и мужчинами</h1>
+    <h5>Данные из <a
+            href="https://docs.google.com/spreadsheets/d/1_hcoJyWIR2nKpSaw31SlRQ4SeMAhN57y0KI1Q6YlzIw/edit#gid=1811284584">таблицы</a>
+        <a class="btn btn-primary"
+           href="https://docs.google.com/forms/d/1G-RtG6kowd4AGzA20ivx5x3VcEAaMlpwPwab1TIdb7I/viewform?c=0&w=1">Pассказать
+            о себе</a>
+    </h5>
+
+    <div class="chartContainer">
+        <div class='progress progress-striped active'>
+            <div class='progress-bar progress-bar-color' id='bar' role='progressbar'></div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="node_modules/sheetrock/dist/sheetrock.min.js"></script>
+<script src="node_modules/jquery/dist/jquery.min.js"></script>
+<script src="node_modules/promise-polyfill/promise.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script src="main.js"></script>
+<script src="diagram.js"></script>
