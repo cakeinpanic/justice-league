@@ -1,6 +1,2 @@
 .idea
-node_modules/jquery/dist/*
-node_modules/jquery/*.*
-node_modules/jquery/sizzle/
-node_modules/jquery/src
-!node_modules/jquery/dist/jquery.min.js
+node_modules/

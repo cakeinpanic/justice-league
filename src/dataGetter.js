@@ -1,4 +1,8 @@
-var url = "https://docs.google.com/spreadsheets/d/1_hcoJyWIR2nKpSaw31SlRQ4SeMAhN57y0KI1Q6YlzIw/edit#gid=1811284584";
+var url = 'https://docs.google.com/spreadsheets/d/1_hcoJyWIR2nKpSaw31SlRQ4SeMAhN57y0KI1Q6YlzIw/edit#gid=1811284584';
+var sheetrock = require('../node_modules/sheetrock/dist/sheetrock.min.js');
+var Promise = require('es6-promise').Promise;
+
+module.exports = getSalaryData;
 
 function getDataFromSheet(query) {
 	return new Promise(function(resolve, reject) {
@@ -42,15 +46,16 @@ function request(query) {
 
 function getSalaryData() {
 	var men, women;
-	return request("select H, M where K = 'Мужчина'")
+	return request('select H, M where K = "Мужчина"')
 		.then(function(menData) {
 			men = menData;
 		})
 		.then(function() {
-			return request("select H, M where K = 'Женщина'")
+			return request('select H, M where K = "Женщина"')
 		})
 		.then(function(womenData) {
 			women = womenData;
 			return Promise.resolve({men: men, women: women});
 		});
 }
+
