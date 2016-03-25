@@ -1,12 +1,18 @@
 @import url('http://fonts.googleapis.com/css?family=Open+Sans:400,700');
 
 body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     font-family: "Open Sans", Arial, sans-serif;
     text-align: center;
     background: #FFF;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 30px;
+    box-sizing: border-box;
+    flex-direction: column;
 }
 
 p {
@@ -15,8 +21,7 @@ p {
 
 h1,
 h2 {
-    padding-left: 120px;
-    padding-right: 120px;
+    padding: 0 120px;
 
     text-align: center;
     font-weight: normal;
@@ -32,12 +37,44 @@ h2 {
 }
 
 .chartContainer {
-    min-height: 100px;
+    min-height: 200px;
 }
 
 .chartContainer.loaded .loader {
     display: none;
 }
+
 .loader {
-    margin-top: 40px;
+    margin: 60px auto 0;
+}
+
+.button {
+    display: inline-block;
+    color: #fff;
+    border-radius: 4px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    background: rgb(66, 184, 221);
+    text-decoration: none;
+    padding: 5px 6px;
+    white-space: nowrap;
+    margin: 5px 0;
+
+}
+
+@media screen and (max-width: 500px) {
+
+    h1,
+    h2 {
+        padding: 0;
+        font-size: 1.5em;
+    }
+
+    h2 {
+        font-size: 1.2em;
+    }
+
+    .chart {
+
+        width: 300px;
+    }
 }
