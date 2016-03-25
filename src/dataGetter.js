@@ -8,6 +8,7 @@ var ROUBLES = 'Рубли';
 var MAN = 'Мужчина';
 var WOMAN = 'Женщина';
 
+
 module.exports = {
 	getAllData: getAllData
 };
@@ -51,6 +52,5 @@ function getAllData() {
 			});
 		})
 		.then(analyze.addFullSalary);
-
-
 }
+

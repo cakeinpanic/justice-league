@@ -1,7 +1,7 @@
 var config = require('./chartConfig.js');
 var getAllData = require('./dataGetter.js').getAllData;
 var analyze = require('./analyze.js');
-var avg = require('./analyze.js').getAverageSalaryOfGroup;
+var objectAssign = require('object-assign');
 
 var chartContainer = document.querySelector('.chartContainer');
 var dollarsContainer = document.querySelector('.chartContainer--dollars');
@@ -18,36 +18,30 @@ module.exports = function() {
 	}
 };
 function prepareDataViews(dataByCurrency, container) {
+	var columns = ['Валюта', 'Мужчины', 'Женщины'];
+	var mData = dataByCurrency.menExp;
+	var wData = dataByCurrency.womenExp;
+
+	var cData = mData.map(function(item, i) {
+		var title = (i !== mData.length - 1) ? (i * 5 + 1) + '-' + (i * 5 + 3) : i * 5 + '+';
+		return [title, mData[i] || 0, wData[i] || 0]
+	});
+
 	return [
+		{info: [columns].concat(cData), container: container, title: 'По стажу работы'},
 		prepareOneChartData([dataByCurrency.men, dataByCurrency.women], 'Currency', 'Везде', container),
 		prepareOneChartData([dataByCurrency.spb.men, dataByCurrency.spb.women], 'City', 'В Питере', container),
 		prepareOneChartData([dataByCurrency.msk.men, dataByCurrency.msk.women], 'City', 'В Москве', container)
 	];
 }
 function prepareCommonData(data) {
-	var roubles = prepareDataByCurrency(analyze.getRoubles(data));
-	var dollars = prepareDataByCurrency(analyze.getDollars(data));
+	var roubles = analyze.prepareDataByCurrency(analyze.getRoubles(data));
+	var dollars = analyze.prepareDataByCurrency(analyze.getDollars(data));
 	return prepareDataViews(roubles, roublesContainer)
 		.concat(prepareDataViews(dollars, dollarsContainer))
 }
-function prepareDataByCurrency(data) {
-	var men = analyze.getMen(data);
-	var women = analyze.getWomen(data);
-	var cities = analyze.getCities(data);
-	return {
-		men: avg(men),
-		women: avg(women),
-		spb: {
-			men: avg(analyze.getMen(cities.spb)),
-			women: avg(analyze.getWomen(cities.spb))
-		},
-		msk: {
-			men: avg(analyze.getMen(cities.msk)),
-			women: avg(analyze.getWomen(cities.msk))
-		}
-	}
-}
 function drawCharts(data) {
+	console.log(data)
 	chartContainer.classList.add('loaded');
 	data.forEach(drawOneChart);
 }
@@ -75,5 +69,7 @@ function drawOneChart(data) {
 
 	var view = new google.visualization.DataView(barData);
 	var barChart = new google.visualization.ColumnChart(chartElement);
-	barChart.draw(view, config);
+	var localConfig = data.title ? objectAssign({title:data.title}, config) : config;
+	console.log(localConfig)
+	barChart.draw(view, localConfig);
 }

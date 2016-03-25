@@ -13,6 +13,7 @@ module.exports = {
 		filename: 'bundle.js',
 		publicPath: '/dist/'
 	},
+	debug: true,
 	externals: [
 		require('webpack-require-http')
 	],
