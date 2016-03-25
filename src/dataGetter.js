@@ -1,8 +1,16 @@
 var url = 'https://docs.google.com/spreadsheets/d/1_hcoJyWIR2nKpSaw31SlRQ4SeMAhN57y0KI1Q6YlzIw/edit#gid=1811284584';
 var sheetrock = require('../node_modules/sheetrock/dist/sheetrock.min.js');
 var Promise = require('es6-promise').Promise;
+var analyze = require('./analyze.js');
 
-module.exports = getSalaryData;
+var DOLLAR = 'Доллары';
+var ROUBLES = 'Рубли';
+var MAN = 'Мужчина';
+var WOMAN = 'Женщина';
+
+module.exports = {
+	getAllData: getAllData
+};
 
 function getDataFromSheet(query) {
 	return new Promise(function(resolve, reject) {
@@ -19,43 +27,30 @@ function getDataFromSheet(query) {
 		})
 	});
 }
-function request(query) {
-	return new Promise(function(resolve) {
-		getDataFromSheet(query).then(function(response) {
-			var data = response.raw.table.rows;
-			var roublesSum = 0;
-			var dollarSum = 0;
-			var dollarCount = 0;
-			var roubleCount = 0;
-			data.forEach(function(item) {
-				if (item.c[1].v === 'Рубли') {
-					roublesSum += item.c[0].v;
-					roubleCount++;
-				} else {
-					dollarSum += item.c[0].v;
-					dollarCount++;
+function getAllData() {
+	return getDataFromSheet('select C, D, F,G,H, I,J, K,M')
+		.then(function(allData) {
+			var data = allData.raw.table.rows;
+			return data.map(function(item) {
+				var dataItem = item.c.map(function(itemField) {
+					return !!itemField ? itemField : {v: null};
+				});
+				return {
+					city: dataItem[0].v,
+					job: dataItem[1].v,
+					exp: dataItem[2].v,
+					fullExp: dataItem[3].v,
+					salary: dataItem[4].v,
+					monthlyBonus: dataItem[5].v || 0,
+					yearlyBonus: dataItem[6].v || 0,
+					gender: dataItem[7].v,
+					currency: dataItem[8].v,
+					isRoubles: (dataItem[8].v === ROUBLES),
+					isWoman: (dataItem[7].v === WOMAN)
 				}
 			});
-			resolve({
-				dollars: dollarSum / dollarCount,
-				roubles: roublesSum / roubleCount
-			})
 		})
-	});
-}
+		.then(analyze.addFullSalary);
 
-function getSalaryData() {
-	var men, women;
-	return request('select H, M where K = "Мужчина"')
-		.then(function(menData) {
-			men = menData;
-		})
-		.then(function() {
-			return request('select H, M where K = "Женщина"')
-		})
-		.then(function(womenData) {
-			women = womenData;
-			return Promise.resolve({men: men, women: women});
-		});
-}
 
+}

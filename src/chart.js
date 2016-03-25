@@ -1,34 +1,55 @@
 var config = require('./chartConfig.js');
-var getSalaryData = require('./dataGetter.js');
+var getAllData = require('./dataGetter.js').getAllData;
+var analyze = require('./analyze.js');
+var avg = require('./analyze.js').getAverageSalaryOfGroup;
+
 var container = document.querySelector('.chartContainer');
 
 module.exports = function() {
-	google.load('visualization', '1', {packages: ['corechart']});
+	google.load('visualization', '1.0', {packages: ['corechart']});
 	google.setOnLoadCallback(draw);
 
 	function draw() {
-		getSalaryData().then(drawCharts);
+		getAllData()
+			.then(prepareCommonData)
+			.then(drawCharts);
 	}
 };
 
+function prepareCommonData(data) {
+	var roubles = prepareDataByCurrency(analyze.getRoubles(data));
+	return [
+		prepareOneChartData([roubles.men, roubles.women], 'Currency', 'Везде'),
+		prepareOneChartData([roubles.spb.men, roubles.spb.women], 'City', 'В Питере'),
+		prepareOneChartData([roubles.msk.men, roubles.msk.women], 'City', 'В Москве')
+	];
+}
+function prepareDataByCurrency(data) {
+	var men = analyze.getMen(data);
+	var women = analyze.getWomen(data);
+	var cities = analyze.getCities(data);
+	return {
+		men: avg(men),
+		women: avg(women),
+		spb: {
+			men: avg(analyze.getMen(cities.spb)),
+			women: avg(analyze.getWomen(cities.spb))
+		},
+		msk: {
+			men: avg(analyze.getMen(cities.msk)),
+			women: avg(analyze.getWomen(cities.msk))
+		}
+	}
+}
 function drawCharts(data) {
 	container.classList.add('loaded');
-	var prepared = prepareData(data);
-	drawOneChart(prepared.roubles);
-	drawOneChart(prepared.dollars);
-
+	data.forEach(drawOneChart);
 }
 
-function prepareData(data) {
-	var columns = ['Currency', 'Men', 'Women'];
-	var dollars = [data.men.dollars, data.women.dollars];
-	var roubles = [data.men.roubles, data.women.roubles];
-	dollars.unshift('Dollars');
-	roubles.unshift('Roubles');
-	return {
-		roubles: [columns, roubles],
-		dollars: [columns, dollars]
-	};
+function prepareOneChartData(data, columnName, columnValue) {
+	var columns = [columnName, 'Мужчины', 'Женщины'];
+	data.unshift(columnValue);
+	return [columns, data];
 }
 
 function createChartElement() {
