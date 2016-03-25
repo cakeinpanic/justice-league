@@ -1,5 +1,5 @@
 <head>
-    <title>Зарплаты в IT</title>
+    <title>Зарплаты</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <meta content="text/html; charset=UTF-8" http-equiv="content-type">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,21 +7,36 @@
 <body>
 <div class="container">
     <h1>Результаты анонимного опроса о размере заработных плат</h1>
-    <h2>Разница в зарплатах между женщинами и мужчинами</h2>
+    <h3>Разница в зарплатах между женщинами и мужчинами
+        <div class="onoffswitch">
+            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="currencySwitcher" checked>
+            <label class="onoffswitch-label" for="currencySwitcher">
+                <span class="onoffswitch-inner"></span>
+                <span class="onoffswitch-switch"></span>
+            </label>
+        </div>
+
+    </h3>
     <div class="chartContainer">
+        <div class="chartContainer--roubles"></div>
+        <div class="chartContainer--dollars"></div>
         <div class="loader">Loading...</div>
     </div>
 
     <p>Данные берутся из <a target="_blank"
-            href="https://docs.google.com/spreadsheets/d/1_hcoJyWIR2nKpSaw31SlRQ4SeMAhN57y0KI1Q6YlzIw/edit#gid=1811284584">
-                таблицы с результатами опроса</a>.
+                            href="https://docs.google.com/spreadsheets/d/1_hcoJyWIR2nKpSaw31SlRQ4SeMAhN57y0KI1Q6YlzIw/edit#gid=1811284584">
+        таблицы с результатами опроса</a>.
         <a class="button" target="_blank"
-           href="https://docs.google.com/forms/d/1G-RtG6kowd4AGzA20ivx5x3VcEAaMlpwPwab1TIdb7I/viewform?c=0&w=1">Дополните таблицу информацией о себе</a>
+           href="https://docs.google.com/forms/d/1G-RtG6kowd4AGzA20ivx5x3VcEAaMlpwPwab1TIdb7I/viewform?c=0&w=1">Дополните
+            таблицу информацией о себе</a>
     </p>
 
 </div>
 
-<a href="https://github.com/cakeinpanic/justice-league"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
+<a href="https://github.com/cakeinpanic/justice-league"><img style="position: absolute; top: 0; right: 0; border: 0;"
+                                                             src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67"
+                                                             alt="Fork me on GitHub"
+                                                             data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
 </body>
 
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>

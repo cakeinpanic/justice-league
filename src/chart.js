@@ -3,7 +3,9 @@ var getAllData = require('./dataGetter.js').getAllData;
 var analyze = require('./analyze.js');
 var avg = require('./analyze.js').getAverageSalaryOfGroup;
 
-var container = document.querySelector('.chartContainer');
+var chartContainer = document.querySelector('.chartContainer');
+var dollarsContainer = document.querySelector('.chartContainer--dollars');
+var roublesContainer = document.querySelector('.chartContainer--roubles');
 
 module.exports = function() {
 	google.load('visualization', '1.0', {packages: ['corechart']});
@@ -15,14 +17,18 @@ module.exports = function() {
 			.then(drawCharts);
 	}
 };
-
+function prepareDataViews(dataByCurrency, container) {
+	return [
+		prepareOneChartData([dataByCurrency.men, dataByCurrency.women], 'Currency', 'Везде', container),
+		prepareOneChartData([dataByCurrency.spb.men, dataByCurrency.spb.women], 'City', 'В Питере', container),
+		prepareOneChartData([dataByCurrency.msk.men, dataByCurrency.msk.women], 'City', 'В Москве', container)
+	];
+}
 function prepareCommonData(data) {
 	var roubles = prepareDataByCurrency(analyze.getRoubles(data));
-	return [
-		prepareOneChartData([roubles.men, roubles.women], 'Currency', 'Везде'),
-		prepareOneChartData([roubles.spb.men, roubles.spb.women], 'City', 'В Питере'),
-		prepareOneChartData([roubles.msk.men, roubles.msk.women], 'City', 'В Москве')
-	];
+	var dollars = prepareDataByCurrency(analyze.getDollars(data));
+	return prepareDataViews(roubles, roublesContainer)
+		.concat(prepareDataViews(dollars, dollarsContainer))
 }
 function prepareDataByCurrency(data) {
 	var men = analyze.getMen(data);
@@ -42,17 +48,17 @@ function prepareDataByCurrency(data) {
 	}
 }
 function drawCharts(data) {
-	container.classList.add('loaded');
+	chartContainer.classList.add('loaded');
 	data.forEach(drawOneChart);
 }
 
-function prepareOneChartData(data, columnName, columnValue) {
+function prepareOneChartData(data, columnName, columnValue, container) {
 	var columns = [columnName, 'Мужчины', 'Женщины'];
 	data.unshift(columnValue);
-	return [columns, data];
+	return {info: [columns, data], container: container};
 }
 
-function createChartElement() {
+function createChartElement(container) {
 	var chartElement = document.createElement('div');
 	chartElement.classList.add('chart');
 	container.appendChild(chartElement);
@@ -60,9 +66,9 @@ function createChartElement() {
 }
 
 function drawOneChart(data) {
-	var chartElement = createChartElement();
+	var chartElement = createChartElement(data.container);
 
-	var barData = google.visualization.arrayToDataTable(data);
+	var barData = google.visualization.arrayToDataTable(data.info);
 	var formatter = new google.visualization.NumberFormat({fractionDigits: 0});
 	formatter.format(barData, 1);
 	formatter.format(barData, 2);
