@@ -6,7 +6,7 @@ module.exports = {
 	getDollars: getDollars,
 	getWomen: getWomen,
 	getMen: getMen,
-	getAverageSalaryOfGroup: getAverageSalary,
+	getAverageSalaryOfGroup: getMedianSalary,
 	groupByExp: groupByExp,
 	prepareDataByCurrency: prepareDataByCurrency
 };
@@ -16,6 +16,7 @@ function countAverageYearSalary(item) {
 	newItem.fullSalary = item.salary * 12 + item.monthlyBonus * 12 + item.yearlyBonus;
 	newItem.averageSalary = newItem.fullSalary / 12;
 	return newItem;
+
 }
 function getCities(data) {
 	var saintP = data.filter(function(item) {
@@ -66,6 +67,19 @@ function getAverageSalary(data) {
 	});
 	return (res / data.length);
 }
+function getMedianSalary(data) {
+	var tempData = data.sort(function(a, b) {
+		return a.averageSalary - b.averageSalary;
+	});
+	var half = Math.floor(tempData.length / 2);
+
+	if (tempData.length % 2) {
+		return tempData[half].averageSalary;
+	}
+	else {
+		return (tempData[half - 1].averageSalary + tempData[half].averageSalary) / 2;
+	}
+}
 
 function groupByExp(data) {
 	var result = [];
@@ -86,7 +100,7 @@ function groupByExp(data) {
 		if (!result[i]) {
 			result[i] = 0
 		} else {
-			result[i] = getAverageSalary(result[i]);
+			result[i] = getMedianSalary(result[i]);
 		}
 	}
 	for (i = 0; i < 5; i++) {
@@ -105,7 +119,7 @@ function prepareDataByCurrency(data) {
 	var men = getMen(data);
 	var women = getWomen(data);
 	var cities = getCities(data);
-	var avg = getAverageSalary;
+	var avg = getMedianSalary;
 	return {
 		men: avg(men),
 		women: avg(women),

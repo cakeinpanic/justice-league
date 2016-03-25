@@ -41,7 +41,6 @@ function prepareCommonData(data) {
 		.concat(prepareDataViews(dollars, dollarsContainer))
 }
 function drawCharts(data) {
-	console.log(data)
 	chartContainer.classList.add('loaded');
 	data.forEach(drawOneChart);
 }
@@ -70,6 +69,5 @@ function drawOneChart(data) {
 	var view = new google.visualization.DataView(barData);
 	var barChart = new google.visualization.ColumnChart(chartElement);
 	var localConfig = data.title ? objectAssign({title:data.title}, config) : config;
-	console.log(localConfig)
 	barChart.draw(view, localConfig);
 }
