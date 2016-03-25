@@ -4,17 +4,16 @@ var autoprefixer = require('autoprefixer');
 
 module.exports = {
 	devtool: 'eval',
-	entry: [
+	entry: process.env.NODE_ENV === 'production' ? ['./src/index.js'] : [
 		'webpack-dev-server/client?http://localhost:3030',
 		'webpack/hot/only-dev-server',
-		'./src/index.js'
-	],
+		'./src/index.js'],
 	output: {
 		path: path.join(__dirname, 'dist'),
 		filename: 'bundle.js',
 		publicPath: '/dist/'
 	},
-	externals:[
+	externals: [
 		require('webpack-require-http')
 	],
 	plugins: [
@@ -25,14 +24,14 @@ module.exports = {
 		})
 
 	],
-	postcss: function () {
+	postcss: function() {
 		return [autoprefixer];
 	},
 	module: {
 		loaders: [
 			{
 				test: /\.css$/,
-				exclude: [ /src/],
+				exclude: [/src/],
 				loader: 'style!css'
 			},
 			{
@@ -41,7 +40,7 @@ module.exports = {
 			},
 			{
 				test: /\.css$/,
-				exclude: [ /node_modules/],
+				exclude: [/node_modules/],
 				loader: 'style!css!postcss'
 			}
 		]
