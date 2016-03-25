@@ -17,8 +17,9 @@ body {
     flex-direction: column;
 }
 
-p {
+.disclaimer {
     margin-top: 2rem;
+    font-size: 1em;
 }
 
 h1,
@@ -115,4 +116,12 @@ h3 {
 
         width: 300px;
     }
+}
+
+@media screen and (max-width: 400px) {
+    .container {
+        margin: 30px 5px;
+        font-size: .9em;
+    }
+
 }
