@@ -25,7 +25,8 @@
   "scripts": {
     "start": "node server.js",
     "deploy": "NODE_ENV=production webpack -p",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "publish": "git checkout gh-pages && git merge master && npm run deploy && git commit -am 'Deploy' && git push"
   },
   "author": "",
   "license": "ISC"
