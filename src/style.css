@@ -1,47 +1,42 @@
 @import url('http://fonts.googleapis.com/css?family=Open+Sans:400,700');
 
 body {
-    font-family: "Open Sans", Arial;
-    background: #EDEDED;
-}
+    display: flex;
+    -webkit-align-items: center;
+            align-items: center;
+    -webkit-justify-content: center;
+            justify-content: center;
 
-main {
-    width: 500px;
-    margin: 10px auto;
-    padding: 10px 20px 30px;
+    font-family: "Open Sans", Arial, sans-serif;
+    text-align: center;
+
+    background: #FFF;
 }
 
 p {
     margin-top: 2rem;
-    font-size: 13px;
 }
 
-h1, h5 {
+h1,
+h2 {
+    padding-left: 120px;
+    padding-right: 120px;
+
     text-align: center;
-    margin-bottom: 20px;
-}
-
-h5 a {
-    text-decoration: none;
-
-}
-
-.container {
-    width: 900px;
-    margin: 0 auto;
-}
-
-.chartContainer {
-    text-align: center;
+    font-weight: normal;
 }
 
 .chart {
-    display: inline-block;;
+    display: inline-block;
     width: 400px;
     height: 300px;
     margin: 20px 20px 0 0;
     position: relative;
     background: #fff;
+}
+
+.chartContainer {
+    min-height: 320px;
 }
 
 .chartContainer.loaded .progress {
@@ -50,7 +45,6 @@ h5 a {
 
 .progress {
     width: 60%;
-    margin: 150px auto;
 }
 
 #bar {
