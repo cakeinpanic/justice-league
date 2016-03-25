@@ -2,14 +2,10 @@
 
 body {
     display: flex;
-    -webkit-align-items: center;
-            align-items: center;
-    -webkit-justify-content: center;
-            justify-content: center;
-
+    align-items: center;
+    justify-content: center;
     font-family: "Open Sans", Arial, sans-serif;
     text-align: center;
-
     background: #FFF;
 }
 
@@ -36,17 +32,12 @@ h2 {
 }
 
 .chartContainer {
-    min-height: 320px;
+    min-height: 100px;
 }
 
-.chartContainer.loaded .progress {
+.chartContainer.loaded .loader {
     display: none;
 }
-
-.progress {
-    width: 60%;
-}
-
-#bar {
-    width: 100%
+.loader {
+    margin-top: 40px;
 }
