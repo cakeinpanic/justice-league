@@ -23,7 +23,7 @@ function prepareDataViews(dataByCurrency, container) {
 	var wData = dataByCurrency.womenExp;
 
 	var cData = mData.map(function(item, i) {
-		var title = (i !== mData.length - 1) ? (i * 5 + 1) + '-' + (i * 5 + 3) : i * 5 + '+';
+		var title = (i !== mData.length - 1) ? (i * 3 + 1) + '-' + (i * 3 + 3) : i * 3 + '+';
 		return [title, mData[i] || 0, wData[i] || 0]
 	});
 
