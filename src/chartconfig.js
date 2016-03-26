@@ -4,7 +4,7 @@ module.exports = {
 	colors: ['cornflowerblue', 'tomato'],
 	fontName: 'Open Sans',
 	chartArea: {
-		left: 50,
+		left: 70,
 		top: 10,
 		width: '100%',
 		height: '70%'
@@ -20,8 +20,10 @@ module.exports = {
 	vAxis: {
 		minValue: 0,
 		baselineColor: '#DDD',
+		format: '##,###₽',
 		textStyle: {
-			fontSize: 11
+			fontSize: 11,
+			fontWeight: 'normal'
 		}
 	},
 	legend: {
