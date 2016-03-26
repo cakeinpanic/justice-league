@@ -1,4 +1,5 @@
 var objectAssign = require('object-assign');
+var fakeList = require('./fakeList.js').fake;
 module.exports = {
 	getCities: getCities,
 	addFullSalary: countFullSalary,
@@ -8,7 +9,8 @@ module.exports = {
 	getMen: getMen,
 	getAverageSalaryOfGroup: getMedianSalary,
 	groupByExp: groupByExp,
-	prepareDataByCurrency: prepareDataByCurrency
+	prepareDataByCurrency: prepareDataByCurrency,
+	isFake: isFake
 };
 
 function countAverageYearSalary(item) {
@@ -16,7 +18,11 @@ function countAverageYearSalary(item) {
 	newItem.fullSalary = item.salary * 12 + item.monthlyBonus * 12 + item.yearlyBonus;
 	newItem.averageSalary = newItem.fullSalary / 12;
 	return newItem;
-
+}
+function isFake(timestamp) {
+	return fakeList.some(function(fakeTimestamp){
+		return fakeTimestamp === timestamp;
+	});
 }
 function getCities(data) {
 	var saintP = data.filter(function(item) {

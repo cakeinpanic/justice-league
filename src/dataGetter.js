@@ -29,27 +29,32 @@ function getDataFromSheet(query) {
 	});
 }
 function getAllData() {
-	return getDataFromSheet('select C, D, F,G,H, I,J, K,M')
+	return getDataFromSheet('select C, D, F,G,H, I,J, K,M, A')
 		.then(function(allData) {
 			var data = allData.raw.table.rows;
-			return data.map(function(item) {
+			var result = [];
+
+			data.forEach(function(item) {
 				var dataItem = item.c.map(function(itemField) {
 					return !!itemField ? itemField : {v: null};
 				});
-				return {
-					city: dataItem[0].v,
-					job: dataItem[1].v,
-					exp: dataItem[2].v,
-					fullExp: dataItem[3].v,
-					salary: dataItem[4].v,
-					monthlyBonus: dataItem[5].v || 0,
-					yearlyBonus: dataItem[6].v || 0,
-					gender: dataItem[7].v,
-					currency: dataItem[8].v,
-					isRoubles: (dataItem[8].v === ROUBLES),
-					isWoman: (dataItem[7].v === WOMAN)
+				if (!analyze.isFake(dataItem[9].f)) {
+					result.push({
+						city: dataItem[0].v,
+						job: dataItem[1].v,
+						exp: dataItem[2].v,
+						fullExp: dataItem[3].v,
+						salary: dataItem[4].v,
+						monthlyBonus: dataItem[5].v || 0,
+						yearlyBonus: dataItem[6].v || 0,
+						gender: dataItem[7].v,
+						currency: dataItem[8].v,
+						isRoubles: (dataItem[8].v === ROUBLES),
+						isWoman: (dataItem[7].v === WOMAN)
+					})
 				}
 			});
+			return result;
 		})
 		.then(analyze.addFullSalary);
 }
