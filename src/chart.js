@@ -4,8 +4,9 @@ var analyze = require('./analyze.js');
 var objectAssign = require('object-assign');
 
 var chartContainer = document.querySelector('.chartContainer');
-var dollarsContainer = document.querySelector('.chartContainer--dollars');
-var roublesContainer = document.querySelector('.chartContainer--roubles');
+var dollarsContainer = document.querySelector('.chartContainer--currency-dollars');
+var roublesContainer = document.querySelector('.chartContainer--currency-roubles');
+var bothContainer = document.querySelector('.chartContainer--currency-both');
 
 module.exports = function() {
 	google.load('visualization', '1.0', {packages: ['corechart']});
@@ -18,26 +19,36 @@ module.exports = function() {
 	}
 };
 function prepareDataViews(dataByCurrency, container) {
-	var mData = dataByCurrency.menExp;
-	var wData = dataByCurrency.womenExp;
+	var mExpData = dataByCurrency.menExp;
+	var wExpData = dataByCurrency.womenExp;
 
-	var cData = mData.map(function(item, i) {
-		var title = (i !== mData.length - 1) ? (i * 3 + 1) + '-' + (i * 3 + 3) : i * 3 + '+';
-		return [title, mData[i] || 0, wData[i] || 0]
+	var expData = mExpData.map(function(item, i) {
+		var title = (i !== mExpData.length - 1) ? (i * 3 + 1) + '-' + (i * 3 + 3) : i * 3 + '+';
+		return [title, mExpData[i] || 0, wExpData[i] || 0]
 	});
+	var cityData = [['Суммарно', dataByCurrency.men, dataByCurrency.women],
+		['В Москве', dataByCurrency.cities.msk.men, dataByCurrency.cities.msk.women],
+		['В Питере', dataByCurrency.cities.spb.men, dataByCurrency.cities.spb.women],
+		['В остальных городах', dataByCurrency.cities.allOther.men, dataByCurrency.cities.allOther.women]
+		];
 
 	return [
-		prepareOneChartData(cData, 'Валюта', container, 'По стажу работы'),
-		prepareOneChartData([['Везде', dataByCurrency.men, dataByCurrency.women]], 'Currency' , container),
-		prepareOneChartData([['В Питере',dataByCurrency.spb.men, dataByCurrency.spb.women]], 'City', container),
-		prepareOneChartData([['В Москве',dataByCurrency.msk.men, dataByCurrency.msk.women]], 'City', container)
+		prepareOneChartData(expData, 'Валюта', container, 'По стажу работы'),
+		prepareOneChartData(cityData, 'City', container, 'По городам')
 	];
 }
 function prepareCommonData(data) {
-	var roubles = analyze.prepareDataByCurrency(analyze.getRoubles(data));
-	var dollars = analyze.prepareDataByCurrency(analyze.getDollars(data));
-	return prepareDataViews(roubles, roublesContainer)
-		.concat(prepareDataViews(dollars, dollarsContainer))
+
+	var roublesData = analyze.getRoubles(data);
+	var dollarsData = analyze.getDollars(data);
+	var bothData = roublesData.concat(analyze.convertDollarsToRoubles(dollarsData));
+	//var roubles = analyze.prepareDataByCurrency(roublesData);
+	//var dollars = analyze.prepareDataByCurrency(dollarsData);
+	var bothInRoubles = analyze.prepareDataByCurrency(bothData);
+
+	return prepareDataViews(bothInRoubles, bothContainer);
+	//.concat(prepareDataViews(dollars, dollarsContainer))
+	//.concat(prepareDataViews(bothInRoubles, bothContainer))
 }
 function drawCharts(data) {
 	chartContainer.classList.add('loaded');
@@ -66,6 +77,6 @@ function drawOneChart(data) {
 
 	var view = new google.visualization.DataView(barData);
 	var barChart = new google.visualization.ColumnChart(chartElement);
-	var localConfig = data.title ? objectAssign({title:data.title}, config) : config;
+	var localConfig = data.title ? objectAssign({title: data.title}, config) : config;
 	barChart.draw(view, localConfig);
 }

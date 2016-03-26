@@ -47,14 +47,7 @@ h3 {
     transition: all 1s;
 }
 
-.chartContainer--dollars {
-    display: inline-block;
-    position: relative;
-    white-space: normal;
-    width: 100%;
-}
-
-.chartContainer--roubles {
+.chartContainer--currency {
     display: inline-block;
     position: relative;
     white-space: normal;
@@ -83,7 +76,7 @@ h3 {
 }
 
 .onoffswitch {
-    display: inline-block;
+    display: none;
 }
 
 .onoffswitch-label {

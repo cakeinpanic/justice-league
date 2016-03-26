@@ -1,5 +1,6 @@
 var objectAssign = require('object-assign');
 var fakeList = require('./fakeList.js').fake;
+var DOLLAR_COST = 70;
 module.exports = {
 	getCities: getCities,
 	addFullSalary: countFullSalary,
@@ -8,8 +9,9 @@ module.exports = {
 	getWomen: getWomen,
 	getMen: getMen,
 	getAverageSalaryOfGroup: getMedianSalary,
-	groupByExp: groupByExp,
+	groupByExp: groupByExperience,
 	prepareDataByCurrency: prepareDataByCurrency,
+	convertDollarsToRoubles: convertDollarsToRoubles,
 	isFake: isFake
 };
 
@@ -20,22 +22,38 @@ function countAverageYearSalary(item) {
 	return newItem;
 }
 function isFake(timestamp) {
-	return fakeList.some(function(fakeTimestamp){
+	return fakeList.some(function(fakeTimestamp) {
 		return fakeTimestamp === timestamp;
 	});
 }
 function getCities(data) {
-	var saintP = data.filter(function(item) {
+	var spbAlias = ['санкт-петербург', 'питер', 'спб'];
+	var mskAlias = ['москва', 'moscow', 'мск'];
+
+	var cityChecker = function(cityAliasArray, city) {
+		return cityAliasArray.some(function(cityAlias) {
+			return cityAlias === city
+		})
+	};
+	var saintP = [];
+	var moscow = [];
+	var allOther = [];
+
+	data.forEach(function(item) {
 		var city = (item.city || '').toLowerCase();
-		return !!item.city && (city === 'санкт-петербург' || city === 'питер' || city === 'спб');
+
+		var isSpb = cityChecker(spbAlias, city);
+		var isMsk = cityChecker(mskAlias, city);
+		var isOther = !(isMsk || isSpb);
+		if (isSpb) {saintP.push(item)}
+		if (isMsk) {moscow.push(item)}
+		if (isOther) {allOther.push(item)}
 	});
-	var moscow = data.filter(function(item) {
-		var city = (item.city || '').toLowerCase();
-		return !!item.city && (city === 'москва' || city === 'moscow');
-	});
+
 	return {
 		msk: moscow,
-		spb: saintP
+		spb: saintP,
+		allOther: allOther
 	}
 }
 
@@ -50,6 +68,13 @@ function getDollars(data) {
 		return !item.isRoubles
 	});
 }
+
+function convertDollarsToRoubles(data) {
+	return data.map(function(item) {
+		return item.averageSalary * DOLLAR_COST
+	});
+}
+
 
 function getMen(data) {
 	return data.filter(function(item) {
@@ -87,7 +112,7 @@ function getMedianSalary(data) {
 	}
 }
 
-function groupByExp(data) {
+function groupByExperience(data) {
 	var result = [];
 	var groupedResult = [];
 	var subResult = 0;
@@ -129,15 +154,21 @@ function prepareDataByCurrency(data) {
 	return {
 		men: avg(men),
 		women: avg(women),
-		menExp: groupByExp(men),
-		womenExp: groupByExp(women),
-		spb: {
-			men: avg(getMen(cities.spb)),
-			women: avg(getWomen(cities.spb))
-		},
-		msk: {
-			men: avg(getMen(cities.msk)),
-			women: avg(getWomen(cities.msk))
+		menExp: groupByExperience(men),
+		womenExp: groupByExperience(women),
+		cities : {
+			spb: {
+				men: avg(getMen(cities.spb)),
+				women: avg(getWomen(cities.spb))
+			},
+			msk: {
+				men: avg(getMen(cities.msk)),
+				women: avg(getWomen(cities.msk))
+			},
+			allOther: {
+				men: avg(getMen(cities.allOther)),
+				women: avg(getWomen(cities.allOther))
+			}
 		}
 	}
 }
