@@ -5,7 +5,7 @@ module.exports = {
 	fontName: 'Open Sans',
 	chartArea: {
 		left: 70,
-		top: 10,
+		top: 20,
 		width: '100%',
 		height: '70%'
 	},

@@ -71,7 +71,7 @@ function drawOneChart(data) {
 	var chartElement = createChartElement(data.container);
 
 	var barData = google.visualization.arrayToDataTable(data.info);
-	var formatter = new google.visualization.NumberFormat({fractionDigits: 0,suffix: '₽'});
+	var formatter = new google.visualization.NumberFormat({fractionDigits: 0, suffix: '₽'});
 	formatter.format(barData, 1);
 	formatter.format(barData, 2);
 
