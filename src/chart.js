@@ -18,7 +18,6 @@ module.exports = function() {
 	}
 };
 function prepareDataViews(dataByCurrency, container) {
-	var columns = ['Валюта', 'Мужчины', 'Женщины'];
 	var mData = dataByCurrency.menExp;
 	var wData = dataByCurrency.womenExp;
 
@@ -28,10 +27,10 @@ function prepareDataViews(dataByCurrency, container) {
 	});
 
 	return [
-		{info: [columns].concat(cData), container: container, title: 'По стажу работы'},
-		prepareOneChartData([dataByCurrency.men, dataByCurrency.women], 'Currency', 'Везде', container),
-		prepareOneChartData([dataByCurrency.spb.men, dataByCurrency.spb.women], 'City', 'В Питере', container),
-		prepareOneChartData([dataByCurrency.msk.men, dataByCurrency.msk.women], 'City', 'В Москве', container)
+		prepareOneChartData(cData, 'Валюта', container, 'По стажу работы'),
+		prepareOneChartData([['Везде', dataByCurrency.men, dataByCurrency.women]], 'Currency' , container),
+		prepareOneChartData([['В Питере',dataByCurrency.spb.men, dataByCurrency.spb.women]], 'City', container),
+		prepareOneChartData([['В Москве',dataByCurrency.msk.men, dataByCurrency.msk.women]], 'City', container)
 	];
 }
 function prepareCommonData(data) {
@@ -45,10 +44,9 @@ function drawCharts(data) {
 	data.forEach(drawOneChart);
 }
 
-function prepareOneChartData(data, columnName, columnValue, container) {
+function prepareOneChartData(data, columnName, container, title) {
 	var columns = [columnName, 'Мужчины', 'Женщины'];
-	data.unshift(columnValue);
-	return {info: [columns, data], container: container};
+	return {info: [columns].concat(data), container: container, title: title};
 }
 
 function createChartElement(container) {
