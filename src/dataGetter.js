@@ -41,7 +41,7 @@ function getAllData() {
 				if (!analyze.isFake(dataItem[9].f)) {
 					result.push({
 						city: dataItem[0].v,
-						job: dataItem[1].v,
+						job: dataItem[1].v.toLowerCase(),
 						exp: dataItem[2].v,
 						fullExp: dataItem[3].v,
 						salary: dataItem[4].v,

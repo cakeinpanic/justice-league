@@ -1,5 +1,6 @@
 var objectAssign = require('object-assign');
-var fakeList = require('./fakeList.js').fake;
+var fakeList = require('./config/fakeList.js').fake;
+var itJobsKeywords = require('./config/itKeywords.js');
 var DOLLAR_COST = 70;
 module.exports = {
 	getCities: getCities,
@@ -98,15 +99,8 @@ function getWomen(data) {
 }
 
 function getIT(data) {
-	var itJobsArray = ['freelance', 'дизайн', 'программист', "разработчик", 'design', 'web', 'веб', "dev", 'арт-директор', 'lead', 'junior',
-		'тестировщик', 'qa', 'engineer', 'artist', 'тимлид', 'team lead', 'teamlead',
-		'devops', '3d', 'сисадин', 'администратор', 'иллюстратор', 'qa',
-		'юзабилити', 'usability', 'backend', 'smm', 'seo', 'проектировщик', 'верстальщик',
-		'ceo', 'cto', 'mobile', 'ios', 'android', 'диджитал', 'digital',
-		'аналитик', 'architect', 'visual', 'interface', 'архитектор', 'интерфейс',
-		'фриланс', 'ux', 'ui', 'фриланс']
-	return data.filter(function(item) {
-		return itJobsArray.some(function(job) {
+		return data.filter(function(item) {
+		return itJobsKeywords.some(function(job) {
 			return item.job.indexOf(job) !== -1;
 		})
 	})

@@ -1,4 +1,4 @@
-var config = require('./chartConfig.js');
+var config = require('./config/chartConfig.js');
 var getAllData = require('./dataGetter.js').getAllData;
 var analyze = require('./analyze.js');
 var objectAssign = require('object-assign');

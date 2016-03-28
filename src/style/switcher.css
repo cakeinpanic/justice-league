@@ -27,7 +27,7 @@
 .onoffswitch-inner:after {
     content: "В IT";
     padding-right: 10px;
-    background-color: #4c4c4c; color: #fff;
+    background-color: #28667b; color: #fff;
     text-align: right;
 }
 .onoffswitch-switch {
