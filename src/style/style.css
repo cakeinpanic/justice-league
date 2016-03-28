@@ -47,11 +47,27 @@ h3 {
     transition: all 1s;
 }
 
-.chartContainer--currency {
+.chartContainer--inner {
     display: inline-block;
     position: relative;
     white-space: normal;
     width: 100%;
+    transition: all 1s;
+}
+
+.chartContainer-showIt .chartContainer--inner-it{
+    visibility: visible;
+    opacity: 1;
+}
+
+.chartContainer-showIt .chartContainer--inner-both{
+    opacity: 0;
+}
+
+.chartContainer--inner-it {
+    left: -100%;
+    visibility: hidden;
+    opacity: 0;
 }
 
 .chartContainer.loaded .loader {
@@ -76,7 +92,7 @@ h3 {
 }
 
 .onoffswitch {
-    display: none;
+    display: inline-block;
 }
 
 .onoffswitch-label {

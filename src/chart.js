@@ -4,9 +4,9 @@ var analyze = require('./analyze.js');
 var objectAssign = require('object-assign');
 
 var chartContainer = document.querySelector('.chartContainer');
-var dollarsContainer = document.querySelector('.chartContainer--currency-dollars');
-var roublesContainer = document.querySelector('.chartContainer--currency-roubles');
-var bothContainer = document.querySelector('.chartContainer--currency-both');
+var itContainer = document.querySelector('.chartContainer--inner-it');
+var roublesContainer = document.querySelector('.chartContainer--inner-roubles');
+var bothContainer = document.querySelector('.chartContainer--inner-both');
 
 module.exports = function() {
 	google.load('visualization', '1.0', {packages: ['corechart']});
@@ -45,9 +45,10 @@ function prepareCommonData(data) {
 	//var roubles = analyze.prepareDataByCurrency(roublesData);
 	//var dollars = analyze.prepareDataByCurrency(dollarsData);
 	var bothInRoubles = analyze.prepareDataByCurrency(bothData);
+	var ITOnlyInRoubles = analyze.prepareDataByCurrency(analyze.getIT(bothData));
 
-	return prepareDataViews(bothInRoubles, bothContainer);
-	//.concat(prepareDataViews(dollars, dollarsContainer))
+	return prepareDataViews(bothInRoubles, bothContainer)
+	.concat(prepareDataViews(ITOnlyInRoubles, itContainer))
 	//.concat(prepareDataViews(bothInRoubles, bothContainer))
 }
 function drawCharts(data) {

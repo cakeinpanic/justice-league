@@ -12,7 +12,8 @@ module.exports = {
 	groupByExp: groupByExperience,
 	prepareDataByCurrency: prepareDataByCurrency,
 	convertDollarsToRoubles: convertDollarsToRoubles,
-	isFake: isFake
+	isFake: isFake,
+	getIT: getIT
 };
 
 function countAverageYearSalary(item) {
@@ -45,9 +46,15 @@ function getCities(data) {
 		var isSpb = cityChecker(spbAlias, city);
 		var isMsk = cityChecker(mskAlias, city);
 		var isOther = !(isMsk || isSpb);
-		if (isSpb) {saintP.push(item)}
-		if (isMsk) {moscow.push(item)}
-		if (isOther) {allOther.push(item)}
+		if (isSpb) {
+			saintP.push(item)
+		}
+		if (isMsk) {
+			moscow.push(item)
+		}
+		if (isOther) {
+			allOther.push(item)
+		}
 	});
 
 	return {
@@ -88,6 +95,22 @@ function getWomen(data) {
 	return data.filter(function(item) {
 		return item.isWoman
 	});
+}
+
+function getIT(data) {
+	var itJobsArray = ['freelance', 'дизайн', 'программист', "разработчик", 'design', 'web', 'веб', "dev", 'арт-директор', 'lead', 'junior',
+		'тестировщик', 'qa', 'engineer', 'artist', 'тимлид', 'team lead', 'teamlead',
+		'devops', '3d', 'сисадин', 'администратор', 'иллюстратор', 'qa',
+		'юзабилити', 'usability', 'backend', 'smm', 'seo', 'проектировщик', 'верстальщик',
+		'ceo', 'cto', 'mobile', 'ios', 'android', 'диджитал', 'digital',
+		'аналитик', 'architect', 'visual', 'interface', 'архитектор', 'интерфейс',
+		'фриланс', 'ux', 'ui', 'фриланс']
+	return data.filter(function(item) {
+		return itJobsArray.some(function(job) {
+			return item.job.indexOf(job) !== -1;
+		})
+	})
+
 }
 function countFullSalary(data) {
 	return data.map(countAverageYearSalary)
@@ -158,7 +181,7 @@ function prepareDataByCurrency(data) {
 		women: avg(women),
 		menExp: groupByExperience(men),
 		womenExp: groupByExperience(women),
-		cities : {
+		cities: {
 			spb: {
 				men: avg(getMen(cities.spb)),
 				women: avg(getWomen(cities.spb))

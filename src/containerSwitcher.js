@@ -10,8 +10,8 @@ module.exports = {
 
 function switchCurrency() {
 	if (currencySwitcher.checked) {
-		$(container).css('left', '0');
+		container.classList.remove('chartContainer-showIt');
 	} else {
-		$(container).css('left', '-100%');
+		container.classList.add('chartContainer-showIt');
 	}
 }
