@@ -71,7 +71,9 @@ function getDollars(data) {
 
 function convertDollarsToRoubles(data) {
 	return data.map(function(item) {
-		return item.averageSalary * DOLLAR_COST
+		var newItem = objectAssign({}, item);
+		newItem.averageSalary = item.averageSalary * DOLLAR_COST;
+		return newItem;
 	});
 }
 
