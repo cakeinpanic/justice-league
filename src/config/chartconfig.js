@@ -19,6 +19,7 @@ module.exports = {
 	},
 	vAxis: {
 		minValue: 0,
+		maxValue: 100,
 		baselineColor: '#DDD',
 		format: '##,###₽',
 		textStyle: {

@@ -3,18 +3,11 @@ var fakeList = require('./config/fakeList.js').fake;
 var itJobsKeywords = require('./config/itKeywords.js');
 var DOLLAR_COST = 70;
 module.exports = {
-	getCities: getCities,
 	addFullSalary: countFullSalary,
-	getRoubles: getRoubles,
-	getDollars: getDollars,
-	getWomen: getWomen,
-	getMen: getMen,
-	getAverageSalaryOfGroup: getMedianSalary,
-	groupByExp: groupByExperience,
-	prepareDataByCurrency: prepareDataByCurrency,
-	convertDollarsToRoubles: convertDollarsToRoubles,
+	getAllStats: prepareAllStats,
 	isFake: isFake,
-	getIT: getIT
+	getIT: getIT,
+	getAllInRoubles: getAllInRoubles
 };
 
 function countAverageYearSalary(item) {
@@ -99,7 +92,7 @@ function getWomen(data) {
 }
 
 function getIT(data) {
-		return data.filter(function(item) {
+	return data.filter(function(item) {
 		return itJobsKeywords.some(function(job) {
 			return item.job.indexOf(job) !== -1;
 		})
@@ -133,48 +126,75 @@ function getMedianSalary(data) {
 
 function groupByExperience(data) {
 	var result = [];
-	var groupedResult = [];
-	var subResult = 0;
 
 	data.forEach(function(item) {
 		if (item.fullExp) {
-			var exp = item.fullExp;
+			var exp = Math.round(+item.fullExp);
 			if (!result[exp]) {
 				result[exp] = []
 			}
-			result[exp].push(item)
+			result[exp].push(item);
 		}
 	});
-
 	for (var i = 0; i < result.length; i++) {
-		if (!result[i]) {
-			result[i] = 0
-		} else {
-			result[i] = getMedianSalary(result[i]);
-		}
+		result[i] = !result[i] ? [] : result[i];
 	}
-	for (i = 0; i < 5; i++) {
-		groupedResult[i] = (result[i + 3] + result[i + 1] + result[i + 2]) / 3;
-	}
-	for (var j = i; j < result.length; j++) {
-		subResult += result[j];
-	}
-	groupedResult[i] = subResult / (result.length - i);
+	return result;
 
-	return groupedResult;
 }
 
+function getMax(obj) {
+	var max = 0;
+	for (var key in obj) {
+		var value = obj[key];
+		var toNumber = typeof value === 'object' ? getMax(value) : value;
+		if (toNumber > max) {
+			max = toNumber;
+		}
+	}
+	return max;
+}
 
-function prepareDataByCurrency(data) {
+function createTitle(i, step, groupNumber) {
+	return (i !== groupNumber - 1) ?
+	(i * step + 1) + '-' + (i * step + step) :
+	i * step + '+';
+}
+function getExpStats(data) {
+	var groupedResult = {};
+	var groupsNumber = 6;
+	var step = 3;
+	var lastGroup = [];
+	for (var i = 0; i < groupsNumber - 1; i++) {
+
+		//@todo use step variable
+		var groupedByExperience = data[i + 3].concat(data[i + 1]).concat(data[i + 2]);
+		groupedResult[createTitle(i, step, groupsNumber)] = {
+			men: getMedianSalary(getMen(groupedByExperience)),
+			women: getMedianSalary(getWomen(groupedByExperience))
+		}
+	}
+	for (var j = i * step; j < data.length; j++) {
+		lastGroup = lastGroup.concat(data[j]);
+	}
+	groupedResult[createTitle(i, step, groupsNumber)] = {
+		men: getMedianSalary(getMen(lastGroup)),
+		women: getMedianSalary(getWomen(lastGroup))
+	};
+	return groupedResult;
+
+}
+function prepareAllStats(data) {
 	var men = getMen(data);
 	var women = getWomen(data);
+	var groupedByExp = groupByExperience(data);
 	var cities = getCities(data);
 	var avg = getMedianSalary;
-	return {
+
+	var stats = {
 		men: avg(men),
 		women: avg(women),
-		menExp: groupByExperience(men),
-		womenExp: groupByExperience(women),
+		exp: getExpStats(groupedByExp),
 		cities: {
 			spb: {
 				men: avg(getMen(cities.spb)),
@@ -189,6 +209,14 @@ function prepareDataByCurrency(data) {
 				women: avg(getWomen(cities.allOther))
 			}
 		}
-	}
+	};
+	stats.maxAverage = getMax(stats);
+	return stats;
 }
 
+function getAllInRoubles(data) {
+	var roublesData = getRoubles(data);
+	var dollarsData = getDollars(data);
+	return roublesData.concat(convertDollarsToRoubles(dollarsData));
+	
+}

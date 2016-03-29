@@ -18,38 +18,35 @@ module.exports = function() {
 			.then(drawCharts);
 	}
 };
-function prepareDataViews(dataByCurrency, container) {
-	var mExpData = dataByCurrency.menExp;
-	var wExpData = dataByCurrency.womenExp;
 
-	var expData = mExpData.map(function(item, i) {
-		var title = (i !== mExpData.length - 1) ? (i * 3 + 1) + '-' + (i * 3 + 3) : i * 3 + '+';
-		return [title, mExpData[i] || 0, wExpData[i] || 0]
+function prepareDataViews(dataByCurrency, container) {
+	var expStats = dataByCurrency.exp;
+	var expData = Object.keys(expStats)
+		.map(function(key) {
+		return [key, expStats[key].men ,expStats[key].women]
 	});
-	var cityData = [['Суммарно', dataByCurrency.men, dataByCurrency.women],
+	if (config.vAxis.maxValue < dataByCurrency.maxAverage) {
+		config.vAxis.maxValue = dataByCurrency.maxAverage;
+	}
+	var cityData = [
+		['Суммарно', dataByCurrency.men, dataByCurrency.women],
 		['В Москве', dataByCurrency.cities.msk.men, dataByCurrency.cities.msk.women],
 		['В Питере', dataByCurrency.cities.spb.men, dataByCurrency.cities.spb.women],
 		['В остальных городах', dataByCurrency.cities.allOther.men, dataByCurrency.cities.allOther.women]
-		];
-
+	];
 	return [
-		prepareOneChartData(expData, 'Валюта', container, 'По стажу работы'),
+		prepareOneChartData(expData, 'Валюта', container,'По стажу работы'),
 		prepareOneChartData(cityData, 'City', container, 'По городам')
 	];
 }
-function prepareCommonData(data) {
 
-	var roublesData = analyze.getRoubles(data);
-	var dollarsData = analyze.getDollars(data);
-	var bothData = roublesData.concat(analyze.convertDollarsToRoubles(dollarsData));
-	//var roubles = analyze.prepareDataByCurrency(roublesData);
-	//var dollars = analyze.prepareDataByCurrency(dollarsData);
-	var bothInRoubles = analyze.prepareDataByCurrency(bothData);
-	var ITOnlyInRoubles = analyze.prepareDataByCurrency(analyze.getIT(bothData));
+function prepareCommonData(data) {
+	var bothData = analyze.getAllInRoubles(data);
+	var bothInRoubles = analyze.getAllStats(bothData);
+	var ITOnlyInRoubles = analyze.getAllStats(analyze.getIT(bothData));
 
 	return prepareDataViews(bothInRoubles, bothContainer)
-	.concat(prepareDataViews(ITOnlyInRoubles, itContainer))
-	//.concat(prepareDataViews(bothInRoubles, bothContainer))
+	.concat(prepareDataViews(ITOnlyInRoubles, itContainer));
 }
 function drawCharts(data) {
 	chartContainer.classList.add('loaded');
