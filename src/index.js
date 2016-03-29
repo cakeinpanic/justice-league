@@ -5,6 +5,6 @@ var switcher = require('./containerSwitcher.js');
 var drawChart = require('./chart.js');
 
 switcher.init();
-drawChart();
+drawChart.init();
 
 
