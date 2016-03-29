@@ -4,6 +4,7 @@ var analyze = require('./analyze.js');
 var objectAssign = require('object-assign');
 
 var chartContainer = document.querySelector('.chartContainer');
+var wholeContainer = document.querySelector('.container');
 var charts = [];
 var chartsData = {};
 
@@ -68,6 +69,7 @@ function prepareChartsData(data) {
 
 function drawCharts(data) {
 	chartContainer.classList.add('loaded');
+	wholeContainer.classList.add('loaded');
 	data.forEach(function(dataItem, i) {
 		drawOneChart(charts[i], dataItem);
 	});

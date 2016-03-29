@@ -1,4 +1,3 @@
-var $ = require('jquery');
 var currencySwitcher = document.getElementById('currencySwitcher');
 var container = document.querySelector('.chartContainer');
 var drawChart = require('./chart.js');
