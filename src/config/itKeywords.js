@@ -1,9 +1,8 @@
 //in lowercase
-module.exports = ['freelance', 'дизайн', 'программист', "разработчик", 'design',
-	'web', 'веб', "dev", 'арт-директор', 'lead', 'junior',
-	'тестировщик', 'qa', 'engineer', 'artist', 'тимлид', 'team lead', 'teamlead',
-	'devops', '3d', 'сисадин', 'администратор', 'иллюстратор', 'qa',
-	'юзабилити', 'usability', 'backend', 'smm', 'seo', 'проектировщик', 'верстальщик',
-	'ceo', 'cto', 'mobile', 'ios', 'android', 'диджитал', 'digital',
-	'аналитик', 'architect', 'visual', 'interface', 'архитектор', 'интерфейс',
-	'фриланс', 'ux', 'ui', 'фриланс'];
+module.exports = ['3d', 'android', 'architect', 'artist', 'backend', 'back-end', 'ceo',
+	'cto', 'design', 'dev', 'digital', 'engineer', 'freelance', 'frontend', 'front-end',
+	'ios', 'interface', 'junior', 'lead', 'mobile', 'program', 'qa', 'senior', 'seo',
+	'smm', 'ui', 'usability', 'ux', 'visual', 'web', 'администратор', 'аналитик',
+	'архитектор', 'бэкенд', 'бекенд', 'веб', 'верстальщик', 'диджитал', 'дизайн',
+	'иллюстратор', 'интерфейс', 'лидер', 'проектировщик', 'программист', 'разработчик',
+	'сеньор', 'сисадмин', 'тестировщик', 'тимлид', 'юзабилити', 'фриланс', 'фронтенд'];
