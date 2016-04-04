@@ -94,22 +94,19 @@ h3 {
 
 }
 
-.onoffswitch {
+.switch {
 	opacity: 0;
 	display: inline-block;
 	transition: all .5s;
-}
-
-.container.loaded .onoffswitch {
-	opacity: 1;
-}
-
-.onoffswitch-label {
-	display: inline-block;
 	line-height: 1em;
 	vertical-align: middle;
 	text-align: left;
 }
+
+.container.loaded .switch {
+	opacity: 1;
+}
+
 
 @media screen and (max-width: 700px) {
 	h1,
