@@ -37,7 +37,6 @@ h3 {
 .chartContainer {
 	display: inline-block;
 	width: 400px;
-	height: 300px;
 	margin: 20px 20px 0 0;
 	position: relative;
 	background: #FFF;
@@ -49,28 +48,8 @@ h3 {
 	position: relative;
 	transition: all 1s;
 }
-
-.allChartsContainer--inner {
-	display: inline-block;
-	position: relative;
-	white-space: normal;
-	width: 100%;
-	transition: all 1s;
-}
-
-.allChartsContainer-showIt .allChartsContainer--inner-it {
-	visibility: visible;
-	opacity: 1;
-}
-
-.allChartsContainer-showIt .allChartsContainer--inner-both {
-	opacity: 0;
-}
-
-.allChartsContainer--inner-it {
-	left: -100%;
-	visibility: hidden;
-	opacity: 0;
+.chart {
+	height: 300px;
 }
 
 .allChartsContainer.loaded .loader {
