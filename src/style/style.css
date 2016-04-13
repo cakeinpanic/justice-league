@@ -34,7 +34,7 @@ h3 {
 	font-weight: normal;
 }
 
-.chart {
+.chartContainer {
 	display: inline-block;
 	width: 400px;
 	height: 300px;
@@ -43,14 +43,14 @@ h3 {
 	background: #FFF;
 }
 
-.chartContainer {
+.allChartsContainer {
 	min-height: 200px;
 	width: 100%;
 	position: relative;
 	transition: all 1s;
 }
 
-.chartContainer--inner {
+.allChartsContainer--inner {
 	display: inline-block;
 	position: relative;
 	white-space: normal;
@@ -58,22 +58,22 @@ h3 {
 	transition: all 1s;
 }
 
-.chartContainer-showIt .chartContainer--inner-it {
+.allChartsContainer-showIt .allChartsContainer--inner-it {
 	visibility: visible;
 	opacity: 1;
 }
 
-.chartContainer-showIt .chartContainer--inner-both {
+.allChartsContainer-showIt .allChartsContainer--inner-both {
 	opacity: 0;
 }
 
-.chartContainer--inner-it {
+.allChartsContainer--inner-it {
 	left: -100%;
 	visibility: hidden;
 	opacity: 0;
 }
 
-.chartContainer.loaded .loader {
+.allChartsContainer.loaded .loader {
 	display: none;
 }
 

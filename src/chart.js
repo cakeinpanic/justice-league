@@ -1,15 +1,19 @@
 var config = require('./config/chartConfig.js');
 var getAllData = require('./dataGetter.js').getAllData;
-var analyze = require('./analyze.js');
 var objectAssign = require('object-assign');
+var analyze = require('./analyze.js');
+var createSwitcher;
 
-var chartContainer = document.querySelector('.chartContainer');
+
+var allChartsContainer = document.querySelector('.allChartsContainer');
 var wholeContainer = document.querySelector('.container');
 var charts = [];
 var chartsData = {};
+var idCounter = 1;
 
 module.exports = {
 	init: function() {
+		createSwitcher = require('./containerSwitcher.js').createSwitcher;
 		google.load('visualization', '1.0', {packages: ['corechart']});
 		google.setOnLoadCallback(draw);
 
@@ -24,11 +28,20 @@ module.exports = {
 				})
 		}
 	},
-	drawIt: function() {
-		drawCharts(chartsData.itOnly);
+	drawIt: function(id) {
+		console.log(!id);
+		if (!id) {
+			drawCharts(chartsData.itOnly);
+		} else {
+
+		}
 	},
-	drawCommon: function() {
-		drawCharts(chartsData.common);
+	drawCommon: function(id) {
+		if (!id) {
+			drawCharts(chartsData.common);
+
+		} else {
+		}
 	}
 
 };
@@ -37,8 +50,8 @@ function prepareDataViews(dataByCurrency, container) {
 	var expStats = dataByCurrency.exp;
 	var expData = Object.keys(expStats)
 		.map(function(key) {
-		return [key, expStats[key].men ,expStats[key].women]
-	});
+			return [key, expStats[key].men, expStats[key].women]
+		});
 	if (config.vAxis.maxValue < dataByCurrency.maxAverage) {
 		config.vAxis.maxValue = dataByCurrency.maxAverage;
 	}
@@ -68,7 +81,7 @@ function prepareChartsData(data) {
 }
 
 function drawCharts(data) {
-	chartContainer.classList.add('loaded');
+	allChartsContainer.classList.add('loaded');
 	wholeContainer.classList.add('loaded');
 	data.forEach(function(dataItem, i) {
 		drawOneChart(charts[i], dataItem);
@@ -81,16 +94,21 @@ function prepareOneChartData(data, columnName, title) {
 }
 
 function createChartInstance(container) {
+	var chartContainer = document.createElement('div');
 	var chartInstance = document.createElement('div');
 	chartInstance.classList.add('chart');
-	container.appendChild(chartInstance);
+	chartContainer.classList.add('chartContainer');
+	chartContainer.id = 'chart' + idCounter++;
+	container.appendChild(chartContainer);
+	chartContainer.appendChild(chartInstance);
+	createSwitcher(chartContainer);
 	return chartInstance;
 }
 
 function createChartInstances(numberOfCharts) {
 	var chartInstances = [];
 	while (numberOfCharts) {
-		var chartElement = createChartInstance(chartContainer);
+		var chartElement = createChartInstance(allChartsContainer);
 		var barChart = new google.visualization.ColumnChart(chartElement);
 		chartInstances.push(barChart);
 		numberOfCharts--;
