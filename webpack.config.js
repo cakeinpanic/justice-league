@@ -40,9 +40,9 @@ module.exports = {
 				loader: 'url-loader?limit=100000'
 			},
 			{
-				test: /\.css$/,
+				test: /\.styl$/,
 				exclude: [/node_modules/],
-				loader: 'style!css!postcss'
+				loader: 'style!css!postcss!stylus'
 			}
 		]
 	}

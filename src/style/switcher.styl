@@ -1,0 +1,55 @@
+.switch {
+	position: relative;
+	height: 2.4em;
+	font-size: .8em;
+	width: 10.5em;
+	background: white;
+	background-image: linear-gradient(to bottom right, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0.1));
+	border-radius: 20px;
+
+	&-label {
+		position: relative;
+		z-index: 2;
+		float: left;
+		width: 4.9em;
+		line-height: 2.4em;
+		text-align: center;
+		color: rgba(0, 0, 0, .7);
+		cursor: pointer;
+		text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+
+		&-off {
+			padding-left: .4em;
+		}
+
+		&-on {
+			padding-right: .3em;
+		}
+	}
+
+	&-input {
+		display: none;
+
+		&:checked + .switch-label {
+			color: white;
+			transition: 0.15s ease-out;
+		}
+
+		&:checked + .switch-label-on ~ .switch-selection {
+			left: 5.3em;
+		}
+	}
+
+	&-selection {
+		display: block;
+		position: absolute;
+		z-index: 1;
+		top: .26em;
+		left: .4em;
+		width: 4.9em;
+		height: 1.8em;
+		border-radius: 20px;
+		background: #42B8DD;
+		transition: left 0.15s ease-out;
+	}
+}

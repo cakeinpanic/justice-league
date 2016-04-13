@@ -79,7 +79,6 @@ function prepareChartsData(data) {
 }
 
 function drawCharts(data) {
-	allChartsContainer.classList.add('loaded');
 	wholeContainer.classList.add('loaded');
 	Object.keys(data).forEach(function(key) {
 		drawOneChart(charts[key], data[key]);
