@@ -4,12 +4,11 @@ var objectAssign = require('object-assign');
 var analyze = require('./analyze.js');
 var createSwitcher;
 
-
 var allChartsContainer = document.querySelector('.allChartsContainer');
 var wholeContainer = document.querySelector('.container');
 var charts = [];
 var chartsData = {};
-var idCounter = 1;
+
 
 module.exports = {
 	init: function() {
@@ -22,18 +21,16 @@ module.exports = {
 				.then(prepareChartsData)
 				.then(function(allData) {
 					chartsData = allData;
-					var numberOfCharts = chartsData.common.length;
-					charts = createChartInstances(numberOfCharts);
+					charts = createChartInstances(Object.keys(chartsData.common));
 					drawCharts(chartsData.common);
 				})
 		}
 	},
 	drawIt: function(id) {
-		console.log(!id);
 		if (!id) {
 			drawCharts(chartsData.itOnly);
 		} else {
-
+			drawOneChart(charts[id], chartsData.itOnly[id]);
 		}
 	},
 	drawCommon: function(id) {
@@ -41,12 +38,13 @@ module.exports = {
 			drawCharts(chartsData.common);
 
 		} else {
+			drawOneChart(charts[id], chartsData.common[id]);
 		}
 	}
 
 };
 
-function prepareDataViews(dataByCurrency, container) {
+function prepareDataViews(dataByCurrency) {
 	var expStats = dataByCurrency.exp;
 	var expData = Object.keys(expStats)
 		.map(function(key) {
@@ -61,10 +59,10 @@ function prepareDataViews(dataByCurrency, container) {
 		['В Питере', dataByCurrency.cities.spb.men, dataByCurrency.cities.spb.women],
 		['В остальных городах', dataByCurrency.cities.allOther.men, dataByCurrency.cities.allOther.women]
 	];
-	return [
-		prepareOneChartData(expData, 'Валюта', 'По стажу работы'),
-		prepareOneChartData(cityData, 'City', 'По городам')
-	];
+	return {
+		exp: prepareOneChartData(expData, 'Валюта', 'По стажу работы'),
+		city: prepareOneChartData(cityData, 'City', 'По городам')
+	};
 }
 
 function prepareChartsData(data) {
@@ -83,8 +81,8 @@ function prepareChartsData(data) {
 function drawCharts(data) {
 	allChartsContainer.classList.add('loaded');
 	wholeContainer.classList.add('loaded');
-	data.forEach(function(dataItem, i) {
-		drawOneChart(charts[i], dataItem);
+	Object.keys(data).forEach(function(key) {
+		drawOneChart(charts[key], data[key]);
 	});
 }
 
@@ -93,24 +91,27 @@ function prepareOneChartData(data, columnName, title) {
 	return {info: [columns].concat(data), title: title};
 }
 
-function createChartInstance(container) {
+function createChartInstance(container, id) {
 	var chartContainer = document.createElement('div');
 	var chartInstance = document.createElement('div');
 	chartInstance.classList.add('chart');
 	chartContainer.classList.add('chartContainer');
-	chartContainer.id = 'chart' + idCounter++;
+	chartContainer.id =  id;
 	container.appendChild(chartContainer);
 	chartContainer.appendChild(chartInstance);
 	createSwitcher(chartContainer);
 	return chartInstance;
 }
 
-function createChartInstances(numberOfCharts) {
-	var chartInstances = [];
+function createChartInstances(keys) {
+	var chartInstances = {};
+	var numberOfCharts = keys.length;
+
 	while (numberOfCharts) {
-		var chartElement = createChartInstance(allChartsContainer);
+		var key = keys[numberOfCharts - 1];
+		var chartElement = createChartInstance(allChartsContainer, key);
 		var barChart = new google.visualization.ColumnChart(chartElement);
-		chartInstances.push(barChart);
+		chartInstances[key] = barChart;
 		numberOfCharts--;
 	}
 	return chartInstances;
