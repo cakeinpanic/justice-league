@@ -35,7 +35,6 @@ module.exports = {
 	},
 	animation: {
 		duration: 1200,
-		easing: 'out',
-		startup: true
+		easing: 'out'
 	}
 };

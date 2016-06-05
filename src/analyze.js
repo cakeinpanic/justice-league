@@ -111,6 +111,9 @@ function getAverageSalary(data) {
 	return (res / data.length);
 }
 function getMedianSalary(data) {
+	if (!data.length) {
+		return 0;
+	}
 	var tempData = data.sort(function(a, b) {
 		return a.averageSalary - b.averageSalary;
 	});
@@ -218,5 +221,5 @@ function getAllInRoubles(data) {
 	var roublesData = getRoubles(data);
 	var dollarsData = getDollars(data);
 	return roublesData.concat(convertDollarsToRoubles(dollarsData));
-	
+
 }

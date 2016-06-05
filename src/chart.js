@@ -13,8 +13,9 @@ var chartsData = {};
 module.exports = {
 	init: function() {
 		createSwitcher = require('./containerSwitcher.js').createSwitcher;
-		google.load('visualization', '1.0', {packages: ['corechart']});
-		google.setOnLoadCallback(draw);
+		google.charts.load('current', {packages: ['corechart', 'bar']});
+
+		google.charts.setOnLoadCallback(draw);
 
 		function draw() {
 			getAllData()
@@ -109,8 +110,7 @@ function createChartInstances(keys) {
 	while (numberOfCharts) {
 		var key = keys[numberOfCharts - 1];
 		var chartElement = createChartInstance(allChartsContainer, key);
-		var barChart = new google.visualization.ColumnChart(chartElement);
-		chartInstances[key] = barChart;
+		chartInstances[key] = new google.visualization.ColumnChart(chartElement);
 		numberOfCharts--;
 	}
 	return chartInstances;
