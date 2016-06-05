@@ -39,12 +39,16 @@ function getAllData() {
 					return !!itemField ? itemField : {v: null};
 				});
 				if (!analyze.isFake(dataItem[9].f)) {
+					var salary = dataItem[4].v;
+					if (!analyze.needToMultiply(dataItem[9].f)) {
+						salary *= 1000;
+					}
 					result.push({
 						city: dataItem[0].v,
 						job: dataItem[1].v.toLowerCase(),
 						exp: dataItem[2].v,
 						fullExp: dataItem[3].v,
-						salary: dataItem[4].v,
+						salary: salary,
 						monthlyBonus: dataItem[5].v || 0,
 						yearlyBonus: dataItem[6].v || 0,
 						gender: dataItem[7].v,
