@@ -7,7 +7,6 @@ module.exports = {
 	devtool: 'eval',
 	entry: process.env.NODE_ENV === 'production' ? ['./src/index.js'] : [
 		'webpack-dev-server/client?http://localhost:3030',
-		'webpack/hot/only-dev-server',
 		'./src/index.js'],
 	output: {
 		path: path.join(__dirname, 'dist'),
@@ -20,7 +19,6 @@ module.exports = {
 	],
 	plugins: [
 		new ExtractTextPlugin("bundle.css", {allChunks: true}),
-		new webpack.HotModuleReplacementPlugin(),
 		new webpack.ProvidePlugin({
 			$: "jquery",
 			jQuery: "jquery"
