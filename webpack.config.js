@@ -1,6 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 var autoprefixer = require('autoprefixer');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
 	devtool: 'eval',
@@ -18,6 +19,7 @@ module.exports = {
 		require('webpack-require-http')
 	],
 	plugins: [
+		new ExtractTextPlugin("bundle.css", {allChunks: true}),
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.ProvidePlugin({
 			$: "jquery",
@@ -33,7 +35,7 @@ module.exports = {
 			{
 				test: /\.css$/,
 				exclude: [/src/],
-				loader: 'style!css'
+				loader:  ExtractTextPlugin.extract("style-loader", "css-loader")
 			},
 			{
 				test: /\.(jpg|png|woff|woff2|eot|ttf|svg)(\?.*)?$/,
@@ -42,7 +44,7 @@ module.exports = {
 			{
 				test: /\.styl$/,
 				exclude: [/node_modules/],
-				loader: 'style!css!postcss!stylus'
+				loader: ExtractTextPlugin.extract(["stylus"],  "css-loader!stylus-loader!postcss-loader")
 			}
 		]
 	}
