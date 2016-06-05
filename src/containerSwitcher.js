@@ -54,6 +54,7 @@ function switchGlobalView(e) {
 function createSwitcher(container) {
 	var newSwitcher = globalSwitcher.cloneNode(true);
 	newSwitcher.classList.remove('containerSwitcher-global');
+	newSwitcher.classList.add('containerSwitcher-local');
 
 	localSwitchers.push(newSwitcher);
 

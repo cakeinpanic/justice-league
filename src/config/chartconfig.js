@@ -1,7 +1,7 @@
 module.exports = {
 	focusTarget: 'category',
-	backgroundColor: 'transparent',
-	colors: ['cornflowerblue', 'tomato'],
+	backgroundColor: {fill: 'transparent'},
+	colors: ['#008FCC', '#E82258'],
 	fontName: 'Open Sans',
 	chartArea: {
 		left: 70,
@@ -30,11 +30,16 @@ module.exports = {
 	legend: {
 		position: 'bottom',
 		textStyle: {
-			fontSize: 12
+			fontName: 'Open Sans',
+			fontSize: 14
 		}
 	},
+	titleTextStyle: {
+		fontName: 'Open Sans',
+		fontSize: 14,
+		fontWeight: '400'
+	},
 	animation: {
-		duration: 1200,
-		easing: 'out'
+		duration: 200
 	}
 };
