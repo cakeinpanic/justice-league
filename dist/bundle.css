@@ -221,7 +221,11 @@ h3 {
 .loader {
   margin: 60px auto 0;
 }
-.button {
+a,
+a:visited {
+  color: #00568f;
+}
+a.button {
   display: inline-block;
   color: #fff;
   border-radius: 4px;
@@ -231,10 +235,6 @@ h3 {
   padding: 5px 8px;
   white-space: nowrap;
   margin: 5px 0;
-}
-a,
-a:visited {
-  color: #00568f;
 }
 .containerSwitcher {
   opacity: 0;
