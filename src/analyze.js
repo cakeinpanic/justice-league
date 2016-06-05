@@ -1,11 +1,13 @@
 var objectAssign = require('object-assign');
 var fakeList = require('./config/fakeList.js').fake;
+var multiplyList = require('./config/fakeList.js').multiplyOnThousand;
 var itJobsKeywords = require('./config/itKeywords.js');
 var DOLLAR_COST = 70;
 module.exports = {
 	addFullSalary: countFullSalary,
 	getAllStats: prepareAllStats,
 	isFake: isFake,
+	needToMultiply: needToMultiply,
 	getIT: getIT,
 	getAllInRoubles: getAllInRoubles
 };
@@ -19,6 +21,11 @@ function countAverageYearSalary(item) {
 function isFake(timestamp) {
 	return fakeList.some(function(fakeTimestamp) {
 		return fakeTimestamp === timestamp;
+	});
+}
+function needToMultiply(timestamp) {
+	return multiplyList.some(function(multiplyTimestamp) {
+		return multiplyTimestamp === timestamp;
 	});
 }
 function getCities(data) {
