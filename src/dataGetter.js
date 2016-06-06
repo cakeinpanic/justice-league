@@ -40,7 +40,7 @@ function getAllData() {
 				});
 				if (!analyze.isFake(dataItem[9].f)) {
 					var salary = dataItem[4].v;
-					if (!analyze.needToMultiply(dataItem[9].f)) {
+					if (analyze.needToMultiply(dataItem[9].f)) {
 						salary *= 1000;
 					}
 					result.push({
