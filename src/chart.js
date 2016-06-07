@@ -44,7 +44,11 @@ module.exports = {
 	}
 
 };
-
+function renderRespondentsCount(data) {
+	document.querySelector('.statsData-all').innerHTML = data.all;
+	document.querySelector('.statsData-men').innerHTML = data.men;
+	document.querySelector('.statsData-women').innerHTML =  data.women;
+}
 function prepareDataViews(dataByCurrency) {
 	var expStats = dataByCurrency.exp;
 	var expData = Object.keys(expStats)
@@ -72,6 +76,8 @@ function prepareChartsData(data) {
 
 	var commonStats = analyze.getAllStats(allData);
 	var itOnlyStats = analyze.getAllStats(itData);
+
+	renderRespondentsCount(analyze.getCountStats(data));
 
 	return {
 		common: prepareDataViews(commonStats),
