@@ -9,6 +9,7 @@ module.exports = {
 	isFake: isFake,
 	needToMultiply: needToMultiply,
 	getIT: getIT,
+	getCountStats: getCountStats,
 	getAllInRoubles: getAllInRoubles
 };
 
@@ -193,6 +194,15 @@ function getExpStats(data) {
 	};
 	return groupedResult;
 
+}
+function getCountStats(data) {
+	var men = getMen(data);
+	var women = getWomen(data);
+	return {
+		all:men.length + women.length,
+		men: men.length,
+		women: women.length
+	};
 }
 function prepareAllStats(data) {
 	var men = getMen(data);
